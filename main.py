@@ -21,7 +21,7 @@ if __name__ == "__main__":
                 print("-------------------------------------")
                 print("Informe o elemento à ser inserido: ")
                 valor = int(input())
-                arvore.inserir(valor)
+                arvore.inserir(valor, arvore.raiz)
                 print("-------------------------------------")
                 print("Valor", valor, "inserido!")
             case 2:

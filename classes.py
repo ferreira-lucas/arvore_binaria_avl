@@ -18,18 +18,15 @@ class ArvoreBinaria:
             self.raiz = None
         
 class ArvoreBinariaBusca(ArvoreBinaria):
-    def height(self, node=0):
-        if node == 0:
-            node = self.raiz
-        
+    def height(self, node):
         if node is None:
             return -1
         else:
             return node.height 
 
     #INSERIR UM VALOR NA ÁRVORE
-    def inserir(self, valor):
-        pai = None
+    def inserir(self, valor, node=0):
+        """pai = None
         x = self.raiz
 
         while(x):
@@ -49,7 +46,28 @@ class ArvoreBinariaBusca(ArvoreBinaria):
         
         pai.height = max(self.height(pai.left), self.height(pai.right)) + 1
 
-        self.raiz = self.balancear(pai)
+        self.raiz = self.balancear(pai)"""
+        if self.raiz is None:
+            self.raiz = Node(valor)
+        else:
+            if node == 0:
+                node = self.raiz
+        
+            if node is None:
+                return Node(valor)
+            else:
+                if valor < node.data:
+                    node.left = self.inserir(valor, node.left)
+                elif valor > node.data:
+                    node.right = self.inserir(valor, node.right)
+                else:
+                    print("Inserção não realizada")
+        
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
+
+            node = self.balancear(node)
+
+            return node
     
     #PESQUISAR UM VALOR NA ÁRVORE
     def pesquisar(self, valor, node=0):
