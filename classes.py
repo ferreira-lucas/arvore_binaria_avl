@@ -49,12 +49,15 @@ class ArvoreBinariaBusca(ArvoreBinaria):
         self.raiz = self.balancear(pai)"""
         if self.raiz is None:
             self.raiz = Node(valor)
+            self.raiz.height = max(self.height(self.raiz.left), self.height(self.raiz.right)) + 1
+            self.raiz = self.balancear(self.raiz)
         else:
             if node == 0:
                 node = self.raiz
         
             if node is None:
-                return Node(valor)
+                node = Node(valor)
+                return node
             else:
                 if valor < node.data:
                     node.left = self.inserir(valor, node.left)
@@ -67,7 +70,7 @@ class ArvoreBinariaBusca(ArvoreBinaria):
 
             node = self.balancear(node)
 
-            return node
+        return node
     
     #PESQUISAR UM VALOR NA ÁRVORE
     def pesquisar(self, valor, node=0):
@@ -132,10 +135,13 @@ class ArvoreBinariaBusca(ArvoreBinaria):
 
         if fator < -1 and fator(node.right) <= 0:
             node = r.left_rotation(node)
+
         elif fator > 1 and fator(node.left) >= 0:
             node = r.right_rotation(node)
+
         elif fator > 1 and fator(node.left) < 0:
             node = r.double_left_rotation(node)
+
         elif fator < -1 and fator(node.right) > 0:
             node = r.double_right_rotation(node)
 
