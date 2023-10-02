@@ -1,5 +1,11 @@
 import classes as c
 
+def height(node):
+    if node is None:
+        return -1
+    else:
+        return node.height 
+
 def left_rotation(r):
     y = r.right
     f = y.left
@@ -7,8 +13,8 @@ def left_rotation(r):
     y.left = r
     r.right = f
 
-    r.height = max(c.ArvoreBinariaBusca.height(r.left), c.ArvoreBinariaBusca.height(r.right)) + 1
-    y.height = max(c.ArvoreBinariaBusca.height(y.left), c.ArvoreBinariaBusca.height(y.right)) + 1
+    r.height = max(height(r.left), height(r.right)) + 1
+    y.height = max(height(y.left), height(y.right)) + 1
 
     return y
         
@@ -19,8 +25,8 @@ def right_rotation(r):
     y.right = r
     r.left = f
 
-    r.height = max(c.ArvoreBinariaBusca.height(r.left), c.ArvoreBinariaBusca.height(r.right)) + 1
-    y.height = max(c.ArvoreBinariaBusca.height(y.left), c.ArvoreBinariaBusca.height(y.right)) + 1
+    r.height = max(height(r.left), height(r.right)) + 1
+    y.height = max(height(y.left), height(y.right)) + 1
 
     return y
 

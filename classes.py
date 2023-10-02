@@ -50,7 +50,7 @@ class ArvoreBinariaBusca(ArvoreBinaria):
         if self.raiz is None:
             self.raiz = Node(valor)
             self.raiz.height = max(self.height(self.raiz.left), self.height(self.raiz.right)) + 1
-            self.raiz = self.balancear(self.raiz)
+            #self.raiz = self.balancear(self.raiz)
         else:
             if node == 0:
                 node = self.raiz
@@ -69,6 +69,8 @@ class ArvoreBinariaBusca(ArvoreBinaria):
             node.height = max(self.height(node.left), self.height(node.right)) + 1
 
             node = self.balancear(node)
+
+            print(node)
 
         return node
     
@@ -126,23 +128,24 @@ class ArvoreBinariaBusca(ArvoreBinaria):
 
     def fator(self, node):
         if node:
+            print(self.height(node.left) - self.height(node.right))
             return self.height(node.left) - self.height(node.right)
         else:
             return 0        
 
     def balancear(self, node):
-        fator = self.fator(node)
+        fator_ = self.fator(node)
 
-        if fator < -1 and fator(node.right) <= 0:
+        if fator_ < -1 and self.fator(node.right) <= 0:
             node = r.left_rotation(node)
 
-        elif fator > 1 and fator(node.left) >= 0:
+        elif fator_ > 1 and self.fator(node.left) >= 0:
             node = r.right_rotation(node)
 
-        elif fator > 1 and fator(node.left) < 0:
+        elif fator_ > 1 and self.fator(node.left) < 0:
             node = r.double_left_rotation(node)
 
-        elif fator < -1 and fator(node.right) > 0:
+        elif fator_ < -1 and self.fator(node.right) > 0:
             node = r.double_right_rotation(node)
 
         return node
