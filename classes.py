@@ -26,31 +26,10 @@ class ArvoreBinariaBusca(ArvoreBinaria):
 
     #INSERIR UM VALOR NA ÁRVORE
     def inserir(self, valor, node=0):
-        """pai = None
-        x = self.raiz
-
-        while(x):
-            pai = x
-            if valor < x.data:
-                x = x.left
-            else:
-                x = x.right
-            
-        if pai is None:
-            self.raiz = Node(valor)
-            pai = self.raiz
-        elif valor < pai.data:
-            pai.left = Node(valor)
-        else:
-            pai.right = Node(valor)
-        
-        pai.height = max(self.height(pai.left), self.height(pai.right)) + 1
-
-        self.raiz = self.balancear(pai)"""
-        if self.raiz is None:
+        """if self.raiz is None:
             self.raiz = Node(valor)
             self.raiz.height = max(self.height(self.raiz.left), self.height(self.raiz.right)) + 1
-            #self.raiz = self.balancear(self.raiz)
+
         else:
             if node == 0:
                 node = self.raiz
@@ -63,16 +42,32 @@ class ArvoreBinariaBusca(ArvoreBinaria):
                     node.left = self.inserir(valor, node.left)
                 elif valor > node.data:
                     node.right = self.inserir(valor, node.right)
-                else:
-                    print("Inserção não realizada")
         
             node.height = max(self.height(node.left), self.height(node.right)) + 1
 
-            node = self.balancear(node)
+            self.raiz = self.balancear(node)
 
-            print(node)
+        return self.raiz"""
+        if node == 0:
+            node = self.raiz
 
-        return node
+        if node is None:
+            node = Node(valor)
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
+            self.raiz = node
+            return self.raiz
+
+        else:        
+            if valor < node.data:
+                node.left = self.inserir(valor, node.left)
+            elif valor > node.data:
+                node.right = self.inserir(valor, node.right)
+        
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
+
+            self.raiz = self.balancear(node)
+
+        return self.raiz
     
     #PESQUISAR UM VALOR NA ÁRVORE
     def pesquisar(self, valor, node=0):
@@ -88,7 +83,25 @@ class ArvoreBinariaBusca(ArvoreBinaria):
             return self.pesquisar(valor, node.left)
         else:
             return self.pesquisar(valor, node.right)
+
+    def min(self, node=0):
+        if node == 0:
+            node = self.raiz
         
+        while node.left:
+            node = node.left
+        
+        return node.data
+    
+    def max(self, node=0):
+        if node == 0:
+            node = self.raiz
+        
+        while node.right:
+            node = node.right
+
+        return node.data
+
     #REMOVER UM VALOR DA ÁRVORE
     def remover(self, valor, node=0):
         if node == 0:
@@ -109,8 +122,12 @@ class ArvoreBinariaBusca(ArvoreBinaria):
                 subs = self.min(node.right)
                 node.data = subs
                 node.right = self.remover(subs, node.right)
+        
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
 
-        return node
+            self.raiz = self.balancear(node)
+
+            return self.raiz
     
     def imprimir(self, nivel, node=0):
         if node == 0:
@@ -128,24 +145,23 @@ class ArvoreBinariaBusca(ArvoreBinaria):
 
     def fator(self, node):
         if node:
-            print(self.height(node.left) - self.height(node.right))
             return self.height(node.left) - self.height(node.right)
         else:
             return 0        
 
     def balancear(self, node):
-        fator_ = self.fator(node)
+        ft = self.fator(node)
 
-        if fator_ < -1 and self.fator(node.right) <= 0:
+        if ft < -1 and self.fator(node.right) <= 0:
             node = r.left_rotation(node)
 
-        elif fator_ > 1 and self.fator(node.left) >= 0:
+        elif ft > 1 and self.fator(node.left) >= 0:
             node = r.right_rotation(node)
 
-        elif fator_ > 1 and self.fator(node.left) < 0:
+        elif ft > 1 and self.fator(node.left) < 0:
             node = r.double_left_rotation(node)
 
-        elif fator_ < -1 and self.fator(node.right) > 0:
+        elif ft < -1 and self.fator(node.right) > 0:
             node = r.double_right_rotation(node)
 
         return node

@@ -1,5 +1,3 @@
-import classes as c
-
 def height(node):
     if node is None:
         return -1
